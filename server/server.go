@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/mustafa-qamaruddin/simple-dns-proxy/common"
 	"log"
 	"net"
 	"os"
@@ -13,7 +14,7 @@ const (
 	TYPE = "tcp"
 )
 
-func StartServer() {
+func StartServer(*common.Configs) {
 	listen, err := net.Listen(TYPE, HOST+":"+PORT)
 	if err != nil {
 		log.Fatal(err)
