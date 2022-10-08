@@ -9,7 +9,7 @@ import (
 
 const (
 	HOST = "localhost"
-	PORT = "9001"
+	PORT = "53"
 	TYPE = "tcp"
 )
 
@@ -19,6 +19,7 @@ func StartServer() {
 		log.Fatal(err)
 		os.Exit(1)
 	}
+	defer listen.Close()
 	for {
 		conn, err := listen.Accept()
 		if err != nil {
@@ -26,9 +27,8 @@ func StartServer() {
 			os.Exit(1)
 		}
 		// handle incoming connections
-		conn.Close()
+		go handleIncomingRequest(conn)
 	}
-	listen.Close()
 }
 
 func handleIncomingRequest(conn net.Conn) {
