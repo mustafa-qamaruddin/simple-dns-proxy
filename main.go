@@ -12,5 +12,8 @@ func main() {
 	if err != nil {
 		logrus.Error(errors.Wrapf(err, "Failed to read configurations"))
 	}
-	server.StartServer(configs)
+	err = server.StartServer(configs)
+	if err != nil {
+		logrus.Error(errors.Wrapf(err, "Failed to start proxy server"))
+	}
 }

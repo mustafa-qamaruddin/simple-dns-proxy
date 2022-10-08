@@ -1,6 +1,8 @@
 # Test server
 
-nslookup google.com localhost -port=53
+```
+ ~/ dig +tcp @localhost -p 9953 google.com
+```
 
 # Workflow
 
