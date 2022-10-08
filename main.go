@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	// @todo add command line args (cobra cli?)
 	configs, err := NewConfigs()
 	if err != nil {
 		logrus.Error(errors.Wrapf(err, "Failed to read configurations"))
