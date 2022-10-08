@@ -1,12 +1,10 @@
 package server
 
 import (
-	"encoding/binary"
 	"github.com/mustafa-qamaruddin/simple-dns-proxy/cloudflare"
 	"github.com/mustafa-qamaruddin/simple-dns-proxy/common"
 	"github.com/mustafa-qamaruddin/simple-dns-proxy/custom-errors"
-	dns_serde "github.com/mustafa-qamaruddin/simple-dns-proxy/dns-enc-dec"
-	"github.com/pkg/errors"
+	"github.com/mustafa-qamaruddin/simple-dns-proxy/dns-packets"
 	"github.com/sirupsen/logrus"
 	"net"
 	"time"
@@ -50,21 +48,15 @@ func handleIncomingRequest(conn net.Conn) {
 			Message: "Failed to read request body",
 		})
 	}
-	// Messages sent over TCP connections use server port 53 (decimal).  The
-	// message is prefixed with a two byte length field which gives the message
-	// length, excluding the two byte length field.  This length field allows
-	// the low-level processing to assemble a complete message before beginning
-	// to parse it.
-	length := binary.BigEndian.Uint16(buffer[0:2])
-	if length == 0 {
-		custom_errors.HandleErrors(errors.New("Invalid length"), common.Error{
+	packets, err := dns_packets.DecodeTcpPackets(buffer)
+	if err != nil {
+		custom_errors.HandleErrors(err, common.Error{
 			Code:    101,
 			Status:  custom_errors.REFUSED,
-			Message: "Invalid tcp packet length",
+			Message: "Failed to read request body",
 		})
 	}
-	dnsQuestion, err := dns_serde.DeserializeDnsQuestion(buffer[2:])
-	cloudflare.QueryDNS(dnsQuestion)
+	cloudflare.QueryDNS(packets)
 	// respond
 	time := time.Now().Format("Monday, 02-Jan-06 15:04:05 MST")
 	conn.Write([]byte("Hi back!"))
