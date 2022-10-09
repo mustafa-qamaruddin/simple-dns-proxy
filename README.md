@@ -1,7 +1,10 @@
 # Test server
 
 ```
- ~/ dig +tcp @localhost -p 9953 google.com
+ dig +tcp @localhost -p 9953 google.com
+
+ kdig -d @1.1.1.1 +tls-ca +tls-host=cloudflare-dns.com  example.com
+
 ```
 
 # Workflow

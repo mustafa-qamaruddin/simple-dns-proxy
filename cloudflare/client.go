@@ -4,7 +4,6 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"github.com/google/gopacket/layers"
 	"io"
 	"log"
 )
@@ -14,6 +13,7 @@ const (
 	HostAlternative = "1.0.0.1"
 	PORT            = "853"
 	TlsHost         = "cloudflare-dns.com"
+	TYPE            = "tcp"
 )
 
 type CloudFlareClient struct {
@@ -24,16 +24,12 @@ func NewCloudFlareClient() *CloudFlareClient {
 	return nil
 }
 
-func QueryDNS(domain *layers.DNS) string {
-
-	cert, err := tls.LoadX509KeyPair("certs/client.pem", "certs/client.key")
-	if err != nil {
-		log.Fatalf("server: loadkeys: %s", err)
-	}
-	config := tls.Config{Certificates: []tls.Certificate{cert}, InsecureSkipVerify: true}
-	conn, err := tls.Dial("tcp", "127.0.0.1:8000", &config)
+func QueryDNS(bytes []byte) ([]byte, error) {
+	config := tls.Config{}
+	conn, err := tls.Dial(TYPE, fmt.Sprintf("%s:%s", HOST, PORT), &config)
 	if err != nil {
 		log.Fatalf("client: dial: %s", err)
+		return nil, err
 	}
 	defer conn.Close()
 	log.Println("client: connected to: ", conn.RemoteAddr())
@@ -46,16 +42,16 @@ func QueryDNS(domain *layers.DNS) string {
 	log.Println("client: handshake: ", state.HandshakeComplete)
 	log.Println("client: mutual: ", state.NegotiatedProtocolIsMutual)
 
-	message := "Hello\n"
-	n, err := io.WriteString(conn, message)
+	n, err := io.WriteString(conn, string(bytes))
 	if err != nil {
 		log.Fatalf("client: write: %s", err)
+		return nil, err
 	}
-	log.Printf("client: wrote %q (%d bytes)", message, n)
+	log.Printf("client: wrote %q (%d bytes)", string(bytes), n)
 
-	reply := make([]byte, 256)
+	reply := make([]byte, 4096)
 	n, err = conn.Read(reply)
 	log.Printf("client: read %q (%d bytes)", string(reply[:n]), n)
 	log.Print("client: exiting")
-	return ""
+	return reply, nil
 }

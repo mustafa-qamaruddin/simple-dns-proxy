@@ -7,7 +7,6 @@ import (
 	"github.com/mustafa-qamaruddin/simple-dns-proxy/dns-packets"
 	"github.com/sirupsen/logrus"
 	"net"
-	"time"
 )
 
 const (
@@ -39,7 +38,7 @@ func StartServer(*common.Configs) error {
 
 func handleIncomingRequest(conn net.Conn) {
 	// store incoming data
-	buffer := make([]byte, 514)
+	buffer := make([]byte, 4096)
 	_, err := conn.Read(buffer)
 	if err != nil {
 		custom_errors.HandleErrors(err, common.Error{
@@ -56,11 +55,23 @@ func handleIncomingRequest(conn net.Conn) {
 			Message: "Failed to read request body",
 		})
 	}
-	cloudflare.QueryDNS(packets)
+	if len(packets.Questions) == 0 {
+		custom_errors.HandleErrors(err, common.Error{
+			Code:    101,
+			Status:  custom_errors.REFUSED,
+			Message: "Empty questions",
+		})
+	}
+	reply, err := cloudflare.QueryDNS(buffer)
+	if err != nil {
+		custom_errors.HandleErrors(err, common.Error{
+			Code:    101,
+			Status:  custom_errors.REFUSED,
+			Message: "Failed to read request body",
+		})
+	}
 	// respond
-	time := time.Now().Format("Monday, 02-Jan-06 15:04:05 MST")
-	conn.Write([]byte("Hi back!"))
-	conn.Write([]byte(time))
+	conn.Write(reply)
 	// close conn
 	conn.Close()
 }
