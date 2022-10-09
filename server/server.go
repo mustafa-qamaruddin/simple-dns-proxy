@@ -7,11 +7,12 @@ import (
 	"github.com/mustafa-qamaruddin/simple-dns-proxy/dns-packets"
 	"github.com/sirupsen/logrus"
 	"net"
+	"time"
 )
 
 const (
 	HOST = "localhost"
-	PORT = "9953"
+	PORT = "53"
 	TYPE = "tcp"
 )
 
@@ -23,7 +24,11 @@ func StartServer(*common.Configs) error {
 	defer listen.Close()
 	logrus.Infof("Server %s started listening for %s traffic on port %s", HOST, TYPE, PORT)
 	for {
+		logrus.Infof("start server loop %s", time.Now().Format("2 Jan 2006 15:04:05"))
+
 		conn, err := listen.Accept()
+		logrus.Infof("listen accept %s", time.Now().Format("2 Jan 2006 15:04:05"))
+
 		if err != nil {
 			custom_errors.HandleErrors(err, common.Error{
 				Code:    101,
@@ -31,12 +36,14 @@ func StartServer(*common.Configs) error {
 				Message: "Handling request",
 			})
 		}
+		// This new goroutine will execute concurrently with the calling one.
 		go handleIncomingRequest(conn)
 	}
 	return nil
 }
 
 func handleIncomingRequest(conn net.Conn) {
+	logrus.Infof("received new request at %s", time.Now().Format("2 Jan 2006 15:04:05"))
 	// store incoming data
 	buffer := make([]byte, 4096)
 	_, err := conn.Read(buffer)

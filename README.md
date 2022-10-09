@@ -30,3 +30,14 @@
 [ ] How would you integrate that solution in a distributed, microservices-oriented and containerized architecture?
 
 [ ] What other improvements do you think would be interesting to add to the project?
+
+# Docker
+
+```
+ docker build -t simple-dns-proxy simple-dns-proxy
+
+ docker run -p 53:53 --name simple-dns-proxy simple-dns-proxy
+
+ docker start -a simple-dns-proxy
+
+```
