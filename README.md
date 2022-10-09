@@ -20,14 +20,21 @@
 
 [ ] Imagine this proxy being deployed in an infrastructure. What would be the security concerns you would raise?
 
+    * if the service is exposed to outside world, it could be subject to DDOS or DNS Spoofing, since the communication from the client to the proxy is unencrypted.
+
 [ ] How would you integrate that solution in a distributed, microservices-oriented and containerized architecture?
+
+    * for multi-cluster dns (service discovery), we could deploy the service as a controller similar to `ExternalDNS` plugin or customize `CoreDNS`.
+    * for application pods, we could add the proxy to start-up configuration of apps to override the existing DNS lookup servers.
 
 [ ] What other improvements do you think would be interesting to add to the project?
 
-    * Caching DNS Queries/Responses
-    * Controlling access by applying policies, for example, using Open Policy Agent (OPA)
+    * Caching DNS Queries/Responses.
+    * Controlling access by applying policies, for example, using Open Policy Agent (OPA).
 
-# Go
+# Getting Started
+
+## Go
 
 ```
  golangci-lint run
@@ -35,7 +42,7 @@
  ./simple-dns-proxy 
 ```
 
-# Docker
+## Docker
 
 ```
  docker build -t simple-dns-proxy simple-dns-proxy
@@ -45,13 +52,13 @@
  docker start -a simple-dns-proxy
 ```
 
-# Docker Compose
+## Docker Compose
 
 ```
  docker-compose up
 ```
 
-# Dig
+## Dig
 
 ```
  dig +tcp @0.0.0.0 -p 53 example.com
