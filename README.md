@@ -1,20 +1,20 @@
 # Workflow
 
-[x] Starts a DNS TCP server on port 53
+- [x] Starts a DNS TCP server on port 53
 
-[x] Forwards DNS Requests to CloudFlare DNS-over-TlS (DoT)
+- [x] Forwards DNS Requests to CloudFlare DNS-over-TlS (DoT)
 
-[x] Reads responses and sends them back to the client
+- [x] Reads responses and sends them back to the client
 
-[x] Uses [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035#section-4.1.1) error codes for error handling
+- [x] Uses [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035#section-4.1.1) error codes for error handling
 
 # Bonus points
 
-[x] Allow multiple incoming requests at the same time
+- [x] Allow multiple incoming requests at the same time
 
-[ ] Also handle UDP requests, while still querying tcp on the other side
+- [ ] Also handle UDP requests, while still querying tcp on the other side
 
-[ ] Any other improvements you can think of!
+- [ ] Any other improvements you can think of!
 
 # QA
 
