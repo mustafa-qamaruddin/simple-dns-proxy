@@ -4,7 +4,7 @@ services:
     build:
       dockerfile: Dockerfile
     ports:
-      - "5300:5300/tcp"
+      - "53:53/tcp"
     networks:
       - dns
     restart: unless-stopped
