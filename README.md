@@ -24,7 +24,7 @@
 
 **How would you integrate that solution in a distributed, microservices-oriented and containerized architecture?**
 
-* for multi-cluster dns (service discovery), we could deploy the service as a controller similar to `ExternalDNS` plugin or customize `CoreDNS`.
+* for multi-cluster dns (service discovery), we could deploy the service as a controller similar to `ExternalDNS` plugin or `CoreDNS`.
 * for application pods, we could add the proxy to start-up configuration of apps to override the existing DNS lookup servers.
 
 **What other improvements do you think would be interesting to add to the project?**
