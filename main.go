@@ -7,12 +7,7 @@ import (
 )
 
 func main() {
-	// @todo add command line args (cobra cli?)
-	configs, err := NewConfigs()
-	if err != nil {
-		logrus.Error(errors.Wrapf(err, "Failed to read configurations"))
-	}
-	err = server.StartServer(configs)
+	err := server.StartServer()
 	if err != nil {
 		logrus.Error(errors.Wrapf(err, "Failed to start proxy server"))
 	}
