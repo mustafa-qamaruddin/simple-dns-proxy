@@ -24,6 +24,9 @@
 
 [ ] What other improvements do you think would be interesting to add to the project?
 
+    * Caching DNS Queries/Responses
+    * Controlling access by applying policies, for example, using Open Policy Agent (OPA)
+
 # Docker
 
 ```
