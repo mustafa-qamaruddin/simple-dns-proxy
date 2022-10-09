@@ -1,21 +1,14 @@
-# Test server
-
-```
- dig +tcp @localhost -p 9953 google.com
-
- kdig -d @1.1.1.1 +tls-ca +tls-host=cloudflare-dns.com  example.com
-
-```
-
 # Workflow
 
-[x] Starts a DNS TCP/UDP server on port 53
+[x] Starts a DNS TCP server on port 53
 
-[x] Decodes DNS Requests and Forwards them to CloudFlare DNS-over-TlS (DoT)
+[x] Forwards DNS Requests to CloudFlare DNS-over-TlS (DoT)
 
 [x] Reads responses and sends them back to the client
 
-# Extra Features
+[x] Uses [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035#section-4.1.1) error codes for error handling
+
+# Bonus points
 
 [x] Allow multiple incoming requests at the same time
 
@@ -39,10 +32,15 @@
  docker run -p 0.0.0.0:53:53 --name simple-dns-proxy simple-dns-proxy
 
  docker start -a simple-dns-proxy
+```
 
- docker-compose up
+# Docker Compose
 
 ```
+ docker-compose up
+```
+
+# Dig
 
 ```
  dig +tcp @0.0.0.0 -p 53 example.com
