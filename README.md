@@ -27,6 +27,14 @@
     * Caching DNS Queries/Responses
     * Controlling access by applying policies, for example, using Open Policy Agent (OPA)
 
+# Go
+
+```
+ golangci-lint run
+ go build .
+ ./simple-dns-proxy 
+```
+
 # Docker
 
 ```

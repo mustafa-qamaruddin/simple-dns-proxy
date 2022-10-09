@@ -35,9 +35,10 @@ func QueryDNS(bytes []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	logrus.Infof("Client: sent to external provider (%d bytes)", n)
 
 	reply := make([]byte, 4096)
 	n, err = conn.Read(reply)
 	logrus.Infof("Client: read (%d bytes)", n)
-	return reply, nil
+	return reply, err
 }

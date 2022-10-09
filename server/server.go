@@ -1,7 +1,6 @@
 package server
 
 import (
-	"github.com/mustafa-qamaruddin/simple-dns-proxy/handler"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"net"
@@ -14,7 +13,7 @@ const (
 	TYPE = "tcp"
 )
 
-func StartServer() error {
+func StartServer(handler func(conn net.Conn)) error {
 	listen, err := net.Listen(TYPE, HOST+":"+PORT)
 	if err != nil {
 		return err
@@ -28,6 +27,6 @@ func StartServer() error {
 			logrus.Error(errors.Wrap(err, "Server: failed to accept new request"))
 		}
 		// This new goroutine will execute concurrently with the calling one.
-		go handler.HandleIncomingRequest(conn)
+		go handler(conn)
 	}
 }
