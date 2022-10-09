@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	HOST = "localhost"
-	PORT = "53"
+	HOST = "0.0.0.0"
+	PORT = "5300"
 	TYPE = "tcp"
 )
 

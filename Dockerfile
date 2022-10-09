@@ -26,6 +26,6 @@ RUN apk add libcap && setcap 'cap_net_bind_service=+ep' /app/simple-dns-proxy
 # first user after root: 1000
 USER root
 
-EXPOSE 53
+EXPOSE 5300
 
-CMD ["/app/simple-dns-proxy"]
+ENTRYPOINT ["/app/simple-dns-proxy"]

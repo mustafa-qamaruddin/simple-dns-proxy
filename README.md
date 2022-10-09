@@ -36,8 +36,18 @@
 ```
  docker build -t simple-dns-proxy simple-dns-proxy
 
- docker run -p 53:53 --name simple-dns-proxy simple-dns-proxy
+ docker run -p 5300:5300 --name simple-dns-proxy simple-dns-proxy
 
  docker start -a simple-dns-proxy
+
+ docker-compose up
+
+```
+
+```
+ dig +tcp @localhost -p 9953 google.com
+
+  kdig +tcp -d @0.0.0.0 -p 5300 example.com
+
 
 ```
