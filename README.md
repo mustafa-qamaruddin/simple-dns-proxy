@@ -8,29 +8,24 @@
 
 - [x] Uses [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035#section-4.1.1) error codes for error handling
 
-# Bonus points
+# TODO
 
 - [x] Allow multiple incoming requests at the same time
 
 - [ ] Also handle UDP requests, while still querying tcp on the other side
 
-- [ ] Any other improvements you can think of!
+## Research
 
-# QA
+- [ ] **Security Concerns**: Assess potential issues with deploying the proxy in infrastructure:
+  - [ ] Determine the risks of exposing the service to the outside world (e.g., DDOS or DNS Spoofing due to unencrypted client-to-proxy communication).
 
-**Imagine this proxy being deployed in an infrastructure. What would be the security concerns you would raise?**
+- [ ] **Integration in Distributed Architecture**:
+  - [ ] Explore deploying the service as a controller for multi-cluster DNS (service discovery), similar to `ExternalDNS` or `CoreDNS`.
+  - [ ] Configure application pods to include the proxy in their start-up settings, overriding existing DNS lookup servers.
 
-* if the service is exposed to outside world, it could be subject to DDOS or DNS Spoofing, since the communication from the client to the proxy is unencrypted.
-
-**How would you integrate that solution in a distributed, microservices-oriented and containerized architecture?**
-
-* for multi-cluster dns (service discovery), we could deploy the service as a controller similar to `ExternalDNS` plugin or `CoreDNS`.
-* for application pods, we could add the proxy to start-up configuration of apps to override the existing DNS lookup servers.
-
-**What other improvements do you think would be interesting to add to the project?**
-
-* Caching DNS Queries/Responses.
-* Controlling access by applying policies, for example, using Open Policy Agent (OPA).
+- [ ] **Potential Improvements**:
+  - [ ] Implement caching for DNS Queries/Responses.
+  - [ ] Add access control mechanisms using policy enforcement tools like Open Policy Agent (OPA).
 
 # Getting Started
 
